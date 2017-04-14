@@ -1,6 +1,6 @@
 var ques_num=1;
 var answer=new Array();
-var transTypes=["全程自驾","全程地铁","全程公交车","公交车+地铁","自驾/出租车+地铁","非机动车+地铁","非机动车+公交"];
+var transTypes=["全程自驾","全程地铁","全程公交车","公交车+地铁","自驾/出租车+地铁","非机动车+地铁","非机动车+公交","全程出租车","非机动车/步行"];
 var area=["黄浦","徐汇","杨浦","闸北","宝山","虹口","嘉定","青浦","松江","奉贤","金山","静安","闵行","普陀","长宁","浦东新区"];
 var dis=["5公里以内","5~10公里","10~15公里","15~20公里","20~30公里","30公里以上","不太清楚"];
 var transType="";
@@ -806,4 +806,5 @@ function geneText(str){
 }
 function btnEvent(fun){
   J.id("nextBtn").clk(fun);
+  J.id("nextBtn").clk("J.body().scrollTop=0",true);
 }

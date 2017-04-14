@@ -211,6 +211,9 @@ function appendMAndBRest(){
   senario.each(function(item){
     answer.append(arrayToString(item));
   });
+  if(senario.length==1){
+    answer.append("");
+  }
   clearQuestion();
 }
 function addTable(ques,opt,title){

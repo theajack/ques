@@ -38,6 +38,8 @@ body{
   margin:50px auto;
   box-shadow: 0px 0px 8px 1px #000;
   padding:60px 100px;
+  position:relative;
+  z-index:5;
 }
 #start{
   width:600px;
@@ -291,11 +293,33 @@ body{
   margin-top: 30px;
   font-size: 20px;
 }
+.support{
+  color:#ddd;
+  font-size:14px;
+  text-align:center;
+  padding:6px;
+  position:fixed;
+  bottom:0;
+  width:100%;
+  z-index:0;
+}
+.support span{
+  color:#fff;
+  cursor:pointer;
+}
+.support span:hover{
+  color:#ddd;
+  text-decoration:underline;
+}
 /*end footer*/
 @media screen and (max-width:950px) {
   #title{
     margin-bottom:5px;
     font-size: 21px;
+  }
+  .support{
+    font-size:12px;
+    padding:3px;
   }
   body{
     font-size:14px;
