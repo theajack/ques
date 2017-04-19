@@ -171,7 +171,7 @@ function getsingle(obj){
   }
 }
 function checkInput(){
-  var list=J.class("question");
+  var list=J.cls("question");
   if(list.length==undefined){
     var res=getAnswer(list);
     if(res==""||res==undefined){
@@ -351,8 +351,8 @@ function addCheck(x,cost){
         </div>';
   J.id("quesWrapper").append(s);
   setTimeout(function(){
-    var l=J.class("s-right").prev().hei();
-    J.class("s-right").css("height",l+"px");
+    var l=J.cls("s-right").prev().hei();
+    J.cls("s-right").css("height",l+"px");
     J.select(".s-right img").css("height",l+"px");
   },10)
 }
@@ -495,7 +495,7 @@ function addSenaAnswer(){
 
 function changeLength(){
   setTimeout(function(){
-    J.class("middle").each(function(item){
+    J.cls("middle").each(function(item){
       var l=item.prev().hei();
       item.css("height",l+"px");
       item.child(0).css("height",l+"px");
@@ -508,7 +508,7 @@ function allEnd(){
   }else{
     answer.append("",0);
   }
-  J.class("lotter-wrapper").hide();
+  J.cls("lotter-wrapper").hide();
   var result=dealAnswer();
   alert(result);
 }
@@ -518,9 +518,9 @@ var last_money=0;
 var lot=false;
 function showLotter(){
   J.id("paper").hide();
-  J.class("lotter-wrapper").show();
-  J.class("lotter").child(1).txt("点击抽奖").show();
-  J.class("lotter").child(2).empty();
+  J.cls("lotter-wrapper").show();
+  J.cls("lotter").child(1).txt("点击抽奖").show();
+  J.cls("lotter").child(2).empty();
 }
 function lotter(obj){
   if(canLot){
@@ -578,7 +578,7 @@ function lotter(obj){
             }else{
               obj.next().html('很遗憾您没有中奖');
               setTimeout(function(){
-                J.class("lotter-wrapper").fadeOut();
+                J.cls("lotter-wrapper").fadeOut();
               },1500);
               allEnd();
             }
@@ -594,7 +594,7 @@ function lotter(obj){
         }else{
           obj.next().txt('很遗憾您没有中奖');
           setTimeout(function(){
-            J.class("lotter-wrapper").fadeOut();
+            J.cls("lotter-wrapper").fadeOut();
           },1500);
           allEnd();
         }
