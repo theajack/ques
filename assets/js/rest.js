@@ -29,7 +29,7 @@ function appendMetroRest(){
       ,"我很难不选择乘坐地铁上班。"
       ,"我已经采用地铁上班很长一段时间了。"],
     ["非常符合","较为符合","中立","不大符合","完全不符合"],
-    "习惯强度度量指标"
+    "请选择所描述内容是否符合您的实际或您是否同意"
   );
   
   addPeopleFactor();
@@ -63,13 +63,13 @@ function appendBusRest(){
       ,"我很难不选择乘坐公交上班。"
       ,"我已经采用公交上班很长一段时间了。"],
     ["非常符合","较为符合","中立","不大符合","完全不符合"],
-    "习惯强度度量指标"
+    "请选择所描述内容是否符合您的实际或您是否同意"
   );
   addPeopleFactor();
   addRestCommon();
 }
 function addPeopleFactor(){
-  addText("人口统计学参数：");
+  addText("个人属性：");
   addQuestion({
     type:"single",
     title:"性别：",
@@ -81,14 +81,14 @@ function addPeopleFactor(){
     list:["20岁以下","21~30岁","31~40岁","41~50岁","51岁以上"]
   });
   addQuestion({
-    type:"select",
+    type:"single",
     title:"教育程度：",
     list:["专科及以下","本科","硕士","博士及以上"]
   });
   addQuestion({
-    type:"select",
+    type:"single",
     title:"您的职业：",
-    list:["非国企公司职员","公务员","事业单位","学生","个体经营","自由职业","离退休","其他"]
+    list:["非国企公司职员","国企公司职员","公务员","事业单位(教师等)","学生","个体经营","自由职业","军人 ","其他"]
   });
   addQuestion({
     type:"single",
@@ -107,7 +107,6 @@ function addPeopleFactor(){
   });
 }
 function addRestCommon(){
-  
   addTable(
     ["听别人说有一条新的上班出行选择，我乐意尝试新选择来看看是否比我现在好"
       ,"上班过程中，我偏好增加一定时间，绕开可能交通状况不清楚的路段。"
@@ -115,7 +114,7 @@ function addRestCommon(){
       ,"从地点A到地点B， 选择1时间可能为30~60分钟，选择2可能为40~50分钟，我更偏向于选择1."
       ,"我不喜欢做风险大的决定，尽管这个决定有可能带来较多利益。"],
     ["非常符合","较为符合","中立","不大符合","完全不符合"],
-    "交通风险态度"
+    "请选择所描述内容是否符合您的实际或您是否同意"
   );
   addTable(
     ["通常我认为改变是一个不好的事情。"
@@ -132,7 +131,7 @@ function addRestCommon(){
       ,"一旦我决定了，别人就很难改变自己的想法"
       ,"我自己的思想和观念会很长一段时间保持不变。"],
     ["非常符合","较为符合","中立","不大符合","完全不符合"],
-    "抵制改变的强度"
+    "请选择所描述内容是否符合您的实际或您是否同意"
   );
   addTable(
     ["从我居住的地方上下班，我更愿意使用公共交通上下班。"
@@ -148,7 +147,7 @@ function addRestCommon(){
       ,"上班过程中，小汽车出行更加舒适、自由与方便。"
       ,"小汽车仅仅是一种代步工具，与公共交通没有什么区别。"],
     ["非常符合","较为符合","中立","不大符合","完全不符合"],
-    "使用公共交通的意向"
+    "请选择所描述内容是否符合您的实际或您是否同意"
   );
   addTable(
     ["准时性和发车频率"
@@ -162,60 +161,12 @@ function addRestCommon(){
       ,"环境是否干净与嘈杂"
       ,"运行过程中是否颠簸与舒适"],
     ["非常重要","较为重要","一般","不大重要","完全不重要"],
-    "出行注重因素"
+    "在上班过程出行方式选择中，您认为以下因素的重要性是？"
   );
 }
 
-var carData=[];
-function saveCarSenaData(){
-  var anss=[];
-  J.id("quesWrapper").findClass("car-question").each(function(item,i){
-    var ans=getAnswer(item);
-    if(ans.length<=6){
-      if(ans.has("自驾")){
-        ans=0;
-      }else if(ans.has("地铁")){
-        ans=1;
-      }else{
-        ans=2;
-      }
-    }else{
-      ans=(ans.has("放弃"))?1:0;
-    }
-    anss.append(ans);
-  });
-  var k=0;
-  senario.each(function(item){
-    item.each(function(a){
-      a.append(anss[k]);
-      k++;
-    })
-  })
-  senario.each(function(item){
-    carData.append(arrayToString(item));
-  });
-}
-function appendMAndBRest(){
-  var anss=[];
-  J.id("quesWrapper").findClass("question").each(function(item,i){
-    var ans=(getAnswer(item).has("放弃"))?1:0;
-    anss.append(ans);
-  });
-  var k=0;
-  senario.each(function(item){
-    item.each(function(a){
-      a.append(anss[k]);
-      k++;
-    })
-  })
-  senario.each(function(item){
-    answer.append(arrayToString(item));
-  });
-  if(senario.length==1){
-    answer.append("");
-  }
-  clearQuestion();
-}
+
+
 function addTable(ques,opt,title){
   if(isMobile){
     if(title!=undefined){
@@ -259,33 +210,12 @@ function gettable(obj){
 function end(){
   if(checkInput()){
     addAnswer();
+    showLotter();
     J.id("paper").hide();
     J.id("start").child(0).hide();
     J.id("start").child(1).show();
     J.id("start").fadeIn();
-    var result=dealAnswer();
-    alert(result);
   }
-}
-function carEnd(){
-  if(checkInput()){
-    saveCarSenaData();
-    addAnswer();
-    dealCarAnswer();
-    J.id("paper").hide();
-    J.id("start").child(0).hide();
-    J.id("start").child(1).show();
-    J.id("start").fadeIn();
-    var result=dealAnswer();
-    alert(result);
-  }
-}
-function dealCarAnswer(){
-  //插入CarData
-  var indexs=[16,17,38,42];
-  carData.each(function(item,i){
-    answer.insert(item,indexs[i]);
-  });
 }
 function dealAnswer(){
   for(var i=0;i<answer.length;i++){

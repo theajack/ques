@@ -9,7 +9,7 @@ function get10Nums(M,SD) {
 	var A = [];
 	while(A.length < 10) {
 		var radom = getNumberInNormalDistribution(mu,sigma);
-		if (radom > mu + 1.96*sigma || radom < mu-1.96 * sigma) {
+		if (radom > mu + 1.8*sigma || radom < mu-1.8 * sigma) {
 			continue;
 		}
 		if (A.indexOf(radom) == -1) {
@@ -22,7 +22,7 @@ function get10Nums(M,SD) {
 	for (var i = 0; i < 10; i++) {
 		arr[i] = Math.exp(A[i]);
 	}
-	return arr;
+	return arr.sort();
 }
 
 function getNumberInNormalDistribution(mean,std_dev) {

@@ -13,6 +13,7 @@
       <div class="">
         <div class="l-title">题目:上海市上班出行选择调查</div>
         <div class="text">您好，感谢您在百忙之中抽出约10分钟时间完成本次问卷调查。为了更好地建设城市交通，同济大学交通运输工程学院特开展上班交通方式选择意愿调查。本调查仅供科研使用，不记名，谢谢您的合作 。</div>
+        <div class="start-warn">(本次问卷有两次抽奖机会，奖金最高50元，中奖概率为：0.5元-30%、1元-10%、2元-8%、5元-4%、10元-1%、50元-0.5%)</div>
         <div class="button">开始</div>
       </div>
       <div class="hide">
@@ -27,15 +28,25 @@
       <div id="quesWrapper">
         
       </div>
-      
       <div class="button" id="nextBtn">下一步</div>
+    </div>
+    <div class="lotter-wrapper hide">
+      <div class="lotter">
+        <div class="l-title red">抽奖</div>
+        <div class="button" onclick="lotter(this)">点击抽奖</div>
+        <div>
+        </div>
+      </div>
     </div>
     <div class="support">
       <span onclick="J.open('http://www.theajack.com')">theajack</span> | <span onclick="J.open('http://www.theajack.com/works.html')">技术支持</span>
     </div>
     <script src="assets/js/jetter.min.js"></script>
+    <script src="assets/js/senario.js"></script>
     <script src="assets/js/index.js"></script>
     <script src="assets/js/rest.js"></script>
-    <script src="assets/js/senario.js"></script>
+    <script src="assets/js/car.js"></script>
+    <script src="assets/js/bus.js"></script>
+    <script src="assets/js/metro.js"></script>
   </body>
 </html>
