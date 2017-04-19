@@ -394,11 +394,11 @@ function getDistance(){
   var d=0;
   switch(answer[3]){
     case "5公里以内":d=5;break;
-    case "5~10公里":d=15;break;
-    case "10~15公里":d=25;break;
-    case "15~20公里":d=35;break;
-    case "20~30公里":d=50;break;
-    case "30公里以上":d=70;break;
+    case "5~10公里":d=7.5;break;
+    case "10~15公里":d=12.5;break;
+    case "15~20公里":d=17.5;break;
+    case "20~30公里":d=25;break;
+    case "30公里以上":d=30;break;
   }
   return d;
 }
