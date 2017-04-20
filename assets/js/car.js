@@ -203,7 +203,7 @@ function appendCarSenario4(){
       getCostText(getCost(),item[0],transType),transType,times,"none")
       +'<div class="middle">\
         <img src="assets/images/home_work.png" alt="" />\
-      </div>'+geneSenario(getCostText(item[3],-1,"car"),"car",ctimes,"none")));
+      </div>'+geneSenario(getCostText(item[3],-1,"car"),"car",ctimes,"none","new")));
   });
   setLittleTitle("新路线情景题");
   btnEvent(appendCarRest2);
@@ -244,6 +244,7 @@ function appendCarRest2(){
     ["非常重要","较为重要","一般","不大重要","完全不重要"],
     "在上班过程出行方式选择中，您认为以下因素的重要性是？"
   );
+  setLittleTitle("");
   btnEvent(end,"完成");
 }
 

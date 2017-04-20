@@ -418,8 +418,11 @@ function wrapperSena(str){
 }
 
 var ctext=["有座位","站立，不拥挤","","站立，很拥挤"];
-function geneSenario(costText,type,x,i){
-  var text=(type==transType)?"您的原选择：":"新选择";
+function geneSenario(costText,type,x,i,index){
+  var text=(type==transType)?"您的原选择:":"新选择:";
+  if(index!=undefined){
+    text="新选择:"
+  }
   var s='<div class="s-wrapper sena">\
       <div class="s-head"><span>'+text+'</span><img src="assets/images/'+type+'.png"/></div>\
       <div class="s-title">费用</div>\

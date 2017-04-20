@@ -3,8 +3,12 @@
     display: table;
     content: " ";
 }
+.cell{
+  display: table-cell;
+  vertical-align: middle;
+}
 .clearfix:after {
-    clear: both;
+  clear: both;
 }
 *{
   -webkit-box-sizing:border-box;
@@ -481,10 +485,9 @@ body{
   .s-item-wrapper {
     width:94%; 
   }
-}
-.cell{
-  display: table-cell;
-  vertical-align: middle;
+  .q-i-w{
+    padding: 0 2px;
+  }
 }
 
 
