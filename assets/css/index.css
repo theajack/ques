@@ -400,6 +400,9 @@ body{
   .s-q-i.two,.s-q-i.three{
     padding-left:0;
   }
+  .sena-wrapper.three{
+    width: 33.3333%;
+  }
   #paper,#start{
     width:96%;
     margin:20px auto;
@@ -448,10 +451,11 @@ body{
     float: left;
   }
   .s-head img{
-    width: 50px;
+    width: 45px;
   }
   .s-head span{
-    top: -20px;
+    top: -18px;
+    font-size:12px;
   }
   .middle{
     display:none;   
@@ -467,12 +471,15 @@ body{
   }
   .s-title{
     height: 30px;
-    font-size: 17px;
+    font-size: 13px;
     line-height: 28px;
   }
   .s-title.specia .s-content{
-    font-size: 14px;
+    font-size: 12px;
     line-height:17px;
+  }
+  .s-item-wrapper {
+    width:94%; 
   }
 }
 .cell{
