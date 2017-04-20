@@ -131,7 +131,7 @@ body{
   width: 18px;
   display: block;
   float: left;
-  margin-top: 3px;
+  margin-top: 2px;
   margin-right: 5px;
   border: 1px solid #aaa;
   border-radius: 50%;
@@ -400,9 +400,6 @@ body{
   .s-q-i.two,.s-q-i.three{
     padding-left:0;
   }
-  .sena-wrapper.three{
-    width: 33.3333%;
-  }
   #paper,#start{
     width:96%;
     margin:20px auto;
@@ -449,6 +446,9 @@ body{
   .s-wrapper.sena{
     width: 50%;
     float: left;
+  }
+  .sena-wrapper.three .s-wrapper{
+    width: 33.3333%!important;
   }
   .s-head img{
     width: 45px;
