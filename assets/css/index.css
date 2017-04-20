@@ -278,7 +278,7 @@ body{
   border-radius: 10px;
 }
 .lotter-warn{
-  font-size:11px;
+  font-size:12px;
 }
 #account{
   height: 30px;
@@ -457,7 +457,7 @@ body{
     display:none;   
   }
   .s-content{
-    font-size: 8px;
+    font-size: 12px;
     padding: 5px 0;
   }
   .s-content.car{
