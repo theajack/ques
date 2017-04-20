@@ -99,7 +99,7 @@ function appendCarSenario2(){
   times=undefined;
 }
 function appendCarSenario3(){
-  J.cls("lotter-wrapper").hide();
+  J.class("lotter-wrapper").hide();
   J.id("paper").show();
   addSenaAnswer();
   nextPage();
