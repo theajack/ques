@@ -389,6 +389,11 @@ body{
 .s-content.image{
   height:227px;
 }
+#allMoneyDiv{
+  padding-left: 20px;
+  padding-top: 10px;
+  font-size: 17px;
+}
 /*end footer*/
 @media screen and (max-width:950px) {
   

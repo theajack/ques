@@ -269,8 +269,8 @@ function getnumber(obj){
 function appendCheck(){
   if(checkInput()){
     addAnswer();
-    var Tup=cnum(answer[4][1]);
-    var Tlow=cnum(answer[4][0]);
+    var Tup=convertNum(answer[4][1]);
+    var Tlow=convertNum(answer[4][0]);
     if(Tlow<=0){
       Tlow=1;
       answer[4][1]=1;
@@ -312,12 +312,12 @@ function appendCheck(){
 }
 function getCost(){
   if(transType=="car"){
-    return cnum(getCarMoney())+cnum(answer[7]);
+    return convertNum(getCarMoney())+convertNum(answer[7]);
   }else{
-    return cnum(answer[4][2]);
+    return convertNum(answer[4][2]);
   }
 }
-function cnum(str){
+function convertNum(str){
   if(str==""){
     return 0;
   }else{
@@ -398,7 +398,7 @@ function getCostText(cb,ca,type){
     }
     return "票价："+cb+"元";
   }else{
-    if(type=="car"){
+    if(type=="car"||type=="taxi"){
       return "原费用："+cb+"元;增加："+(ca-cb)+"元</br>共：" +ca+"元";
     }
     return "原票价："+cb+"元;增加："+(ca-cb)+"元</br>共：" +ca+"元";
@@ -878,7 +878,7 @@ function addTable(ques,opt,title){
               <td class="table-l-item">题目</td>'+optStr+"</tr>";
             ques.each(function(str){
               s+='<tr class="table-item question" a-type="table">\
-              <td class="table-l-item">'+(ques_num++)+'. '+str+'</td>'+optStr+"</tr>";
+              <td class="table-l-item">'+str+'</td>'+optStr+"</tr>";
             });
           s+='</table></div>';
     J.id("quesWrapper").append(s);

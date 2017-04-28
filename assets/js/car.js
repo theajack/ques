@@ -25,9 +25,10 @@ function addCarGeneral(){
     type:"single",
     title:"是否需要停车费、过路费？",
     list:["是","否"],
-    add:wrpperAdd(geneNumberItem("停车费、过路费共为_元，<br/>预估您上班费用为 <span id='allMoney'>0</span> 元,（油费<span id='moneyYou'>0</span>元+停车/过路费<span id='moneyLu'>0</span>元）",true)),
+    add:wrpperAdd(geneNumberItem("停车费、过路费共为_元.",true)),
     indexs:[0]
   });
+  J.id("money2").parent(3).append(J.new("div#allMoneyDiv").html("预估您上班费用为 <span id='allMoney'>0</span> 元<span class='hide'>,（油费<span id='moneyYou'>0</span>元+停车/过路费<span id='moneyLu'>0</span>元）</span>"))
   addQuestion({
     type:"single",
     title:"除了自驾，从您家到公司，是否可以采用地铁?",
@@ -55,7 +56,7 @@ var times;
 function appendCarSenario1(){
   if(checkInput()){
     //setLittleTitle("自驾与地铁情景题");
-    carSen=new Car(cnum(answer[4][1]),cnum(answer[4][0]),getCost(),0,0);
+    carSen=new Car(convertNum(answer[4][1]),convertNum(answer[4][0]),getCost(),0,0);
     addText("部分1：自驾与地铁情景题","red");
     senario.append(carSen.getSenario1());
     senario.last().each(function(item,i){

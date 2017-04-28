@@ -47,7 +47,7 @@ function btnEventCommon(){
 var metroSen;
 function appendMetroSenario1(){
   if(checkInput()){
-    metroSen=new Metro(cnum(answer[4][1]),cnum(answer[4][0]),getCrow(),cnum(answer[4][2]));
+    metroSen=new Metro(convertNum(answer[4][1]),convertNum(answer[4][0]),getCrow(),convertNum(answer[4][2]));
     senario.append(metroSen.getSenario1());
     var subTitle="地铁与公交场景题";
     //setLittleTitle(subTitle);

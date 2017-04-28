@@ -44,7 +44,7 @@ function addBusGeneral(){
 var busSen;
 function appendBusSenario1(){
   if(checkInput()){
-    busSen=new Bus(cnum(answer[4][1]),cnum(answer[4][0]),getCrow());
+    busSen=new Bus(convertNum(answer[4][1]),convertNum(answer[4][0]),getCrow());
     var subTitle="公交与地铁场景题";
     addText("部分1："+subTitle,"red");
     //setLittleTitle(subTitle);
