@@ -71,6 +71,7 @@ function appendBusSenario1(){
     });
     btnEvent(appendBusSenario2);
     times=undefined;
+    changeLength();
   }
 }
 function appendBusSenario2(){

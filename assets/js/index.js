@@ -590,7 +590,7 @@ function allEnd(){
       if(data.data==1){
         J.show("请不要重复提交");
       }else{
-        J.show("提交成功！奖金24小时内到账");
+        J.showWait("提交成功！奖金24小时内到账","success");
       }
     },
     error: function (err) {
@@ -922,10 +922,10 @@ function dealAnswer(){
   return answer.join(";")
 }
 function getTUp(){
-  return answer[4][1];
+  return parseFloat(answer[4][1]);
 }
 function getTLow(){
-  return answer[4][0]
+  return parseFloat(answer[4][0]);
 }
 function getMean(){
   return Math.round((getTUp()+getTLow())/2)

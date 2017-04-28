@@ -259,10 +259,9 @@ function appendCarRest1(){
 }
 function appendCarRest2(){
   if(checkInput()){
-    addSenaAnswer();
+    addAnswer();
     nextPage();
     addText("此为本次调查的最后一部分内容","red");
-    
     addTable(
       ["通常我认为改变是一个不好的事情。"
         ,"我喜欢做习惯的事情而不愿意尝试新的不同事物。"

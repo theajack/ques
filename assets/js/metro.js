@@ -73,9 +73,9 @@ function appendMetroSenario1(){
           <img src="assets/images/home_work.png" alt="" />\
         </div>'+geneSenario(getCostText(item[4],-1,"bus"),"bus",ctimes,item[7],undefined,item[6])));
     });
-    changeLength();
     btnEvent(appendMetroSenario2);
     times=undefined;
+    changeLength();
   }
 }
 function appendMetroSenario2(){
