@@ -26,10 +26,13 @@ J.ready(function(){
     btnEvent(appendGeneralItems);
   });
 })
-function nextPage(){
+function nextPage(text){
   page_index++;
   ques_index=0;
   clearQuestion();
+  if(text!=undefined){
+    addText(text,"red");
+  }
 }
 window.onresize=resize;
 function resize(){
@@ -41,7 +44,7 @@ function resize(){
   });
 }
 function setLittleTitle(str){
-  J.select("#title .l-title").txt(str);
+  //J.select("#title .l-title").txt(str);
 }
 function appendGeneralItems(){
   if(checkInput()){
@@ -88,7 +91,8 @@ function addGeneralComm(){
   addQuestion({
     type:"single",
     title:"上班距离大概为？",
-    list:(transType=="car")?dis.remove("不太清楚"):dis
+    list:(transType=="car")?dis.remove("不太清楚"):dis,
+    id:"distantce"
   });
 }
 function clearQuestion(){
@@ -99,7 +103,7 @@ function addQuestion(opt){
   ques_num++;
   ques_index++;
   switch(opt.type){
-    case "single":s=geneSingle(opt.title,opt.list,opt.id,opt.add,opt.indexs,opt.size,opt.subTitle);break;
+    case "single":s=geneSingle(opt.title,opt.list,opt.id,opt.add,opt.indexs,opt.size,opt.subTitle,opt.answerId);break;
     case "select":s=geneSelect(opt.title,opt.list,opt.id);break;
     case "number":s=geneNumber(opt.title,opt.id);break;
     default:break;
@@ -118,19 +122,19 @@ function addAnswer(){
 function getAnswer(obj){
   return (new Function("obj","return get"+obj.attr("a-type")+"(obj)"))(obj);
 }
-function geneSingle(title,list,id,add,indexs,size,sub){
+function geneSingle(title,list,id,add,indexs,size,sub,answer){
   sub=J.checkArg(sub,"");
-  id=" id='"+J.checkArg(id,"")+"' ";
-  var s='<div class="q-w" '+id+'>\
-          <div class="q-t question" a-type="single">'+letter[page_index]+ques_index+'. '+sub+title +'<span class="require">*</span></div>';
-  s+=geneSingleItem(list,indexs,size);
+  id=" id='"+J.checkArg(id,"")+"' ";//+letter[page_index]+ques_index+'. '
+  var s='<div class="q-w" >\
+          <div class="q-t question" '+id+' a-type="single">'+sub+title +'<span class="require">*</span></div>';
+  s+=geneSingleItem(list,indexs,size,answer);
   if(add!=undefined){
     s+=add;
   }
   s+='</div>';
   return s;
 }
-function geneSingleItem(list,indexs,size){
+function geneSingleItem(list,indexs,size,answer){
   var s="<div class='q-i-w'>"
   list.each(function(item,i){
     var showAdd;
@@ -144,9 +148,10 @@ function geneSingleItem(list,indexs,size){
       }
     }
     var t=J.checkArg(size,"");
+    var answerId=(answer==false)?'':(i+1)+')';
     s+='<div class="s-q-i '+t+'">\
           <span class="s-q-c" onclick="checkSingle(this,'+showAdd+')"><span class="s-q-cc"></span></span>\
-          '+(i+1)+')<span onclick="checkSingle(this.prev(),'+showAdd+')">'+item+'</span>\
+          '+answerId+'<span onclick="checkSingle(this.prev(),'+showAdd+')">'+item+'</span>\
         </div>';
   })
   s+='</div>';
@@ -201,9 +206,9 @@ function checkInput(){
   return true;
 }
 function geneSelect(title,list,id){
-  id=" id='"+J.checkArg(id,"")+"' ";
+  id=" id='"+J.checkArg(id,"")+"' ";//+letter[page_index]+ques_index+'. '
   var s='<div class="q-w"'+id+'>\
-          <div class="q-t question" a-type="select">'+letter[page_index]+ques_index+'. '+title+'\
+          <div class="q-t question" a-type="select">'+title+'\
             <select class="q-select">';
   list.each(function(item,i){
     s+='<option value="'+item+'">'+item+'</option>';
@@ -213,6 +218,7 @@ function geneSelect(title,list,id){
     </div></div>';
   return s;
 }
+
 function getselect(obj){
   var val=obj.findClass("q-select").val();
   if(val==""){
@@ -223,18 +229,29 @@ function getselect(obj){
 
 function geneNumber(title,id){
   id=" id='"+J.checkArg(id,"")+"' ";
-  title=title.replaceAll("_",'<input class="q-num" type="number" />');
+  title=title.replaceAll("_",'<input class="q-num" type="number" />');//+letter[page_index]+ques_index+'. '
   var s='<div class="q-w"'+id+'>\
-        <div class="q-t question" a-type="number">'+letter[page_index]+ques_index+'. '+title+'\
+        <div class="q-t question" a-type="number">'+title+'\
           <span class="require">*</span>\
         </div>\
       </div>';
   return s;
 }
-function geneNumberItem(title){
-  return '<div class="q-t question add" a-type="number">'+title.replaceAll("_",'<input class="q-num" type="number" />')+'\
+function geneNumberItem(title,all){
+  var input="";
+  if(all==true){
+    input='id="money2" oninput="changeAllMoney()"';
+  }
+  return '<div class="q-t question add" a-type="number">'+title.replaceAll("_",'<input '+input+' class="q-num"  type="number" />')+'\
           <span class="require">*</span>\
         </div>';
+}
+function changeAllMoney(){
+  var m2=parseFloat((J.id("money2").val()=="")?0:J.id("money2").val());
+  J.id("moneyLu").txt(Math.round(m2));
+  var m1=parseFloat(getDistanceByStr(getsingle(J.id("distantce")))*0.7);
+  J.id("moneyYou").txt(Math.round(m1));
+  J.id("allMoney").txt(Math.round(m1+m2));
 }
 function getnumber(obj){
   var val=obj.findClass("q-num").val();
@@ -270,7 +287,7 @@ function appendCheck(){
     var a=Math.log(Tup/Tlow)/3.3;
     var u=Math.log(RP_mean)-Math.pow(a,2)/2;
     var RP_SD=Math.sqrt((Math.exp(Math.pow(a,2))-1)*Math.exp(2*u+Math.pow(a,2)));
-    var x=get10Nums(RP_mean,RP_SD);
+    var x=generateSenrio(RP_mean,RP_SD,Tup,Tlow);
     var cost=getCost();
     nextPage();
     addQuestion({
@@ -278,7 +295,7 @@ function appendCheck(){
       title:"根据那您之前所填信息，您现在采用的上班方式信息大概如下。是否符合您的实际情况？",
       list:["基本符合","很不符合"]
     });
-    addCheck(x,cost);
+    addCheck(x,cost,RP_mean);
     btnEvent(function(){
       if(checkInput()){
         addAnswer();
@@ -314,29 +331,28 @@ function rechoose(){
   appendGeneralItems();
   J.show("请重新填写","info");
 }
-function addCheck(x,cost){
+function addCheck(x,cost,RP_mean){
   var s='<div class="s-wrapper clearfix">\
           <div class="s-left">\
             <div class="s-head"><span>您的原选择：</span><img src="assets/images/'+transType+'.png"/></div>\
             <div class="s-title">费用</div>\
             <div class="s-content">原费用：'+cost+'元</div>\
             <div class="s-title">时间范围</div>\
-            <div class="s-content">每天上班的实际时间由于实际路况的不同，实际在一定时间范围内变动。根据您之前的时间范围描述，实际出行时间有相同可能是以下10种情况：\
+            <div class="s-content">每天上班的实际时间由于情况不同，在一定范围内变动。根据您之前描述，预估实际出行时间情况大概如下：\
               <div class="s-item-wrapper clearfix">';
-  x.each(function(a){
-    s+='<div class="s-c-item">'+Math.round(a)+'分钟</div>';
-  });
-  s+='</div>\
+              x.each(function(a){
+                s+='<div class="new-time">'+Math.round(a[0])+'~'+Math.round(a[1])+'分钟 到达的可能性是 '+Math.round(a[2]*100)+'%</div>';
+              });
+              s+='</div>\
             </div>\
-            <div class="s-title">平均时间</div>\
-            <div class="s-content">'+ave(x)+'分钟</div>';
+            <div class="s-content">平均时间：'+Math.round(RP_mean)+'分钟</div>';
             
           if(transType!="car"){
             var i;
             if(answer[5].length==3){
               i=0;
             }else if(answer[5].length==7){
-              i=2;
+              i=1;
             }else{
               i=3;
             }
@@ -350,11 +366,11 @@ function addCheck(x,cost){
           </div>\
         </div>';
   J.id("quesWrapper").append(s);
-  setTimeout(function(){
+  J.class("s-right").child(0).onload=function(){
     var l=J.class("s-right").prev().hei();
     J.class("s-right").css("height",l+"px");
     J.select(".s-right img").css("height",l+"px");
-  },10)
+  }
 }
 function ave(x){
   var sum=0;
@@ -373,12 +389,11 @@ function appendSenario(){
   }else{
     appendMetroSenario1();
   }
-  changeLength();
 }
 
 function getCostText(cb,ca,type){
   if(ca==undefined||ca<0){
-    if(type=="car"){
+    if(type=="car"||type=="taxi"){
       return "费用："+cb+"元";
     }
     return "票价："+cb+"元";
@@ -391,8 +406,11 @@ function getCostText(cb,ca,type){
 }
 
 function getDistance(){
+  return getDistanceByStr(answer[3]);
+}
+function getDistanceByStr(str){
   var d=0;
-  switch(answer[3]){
+  switch(str){
     case "5公里以内":d=5;break;
     case "5~10公里":d=7.5;break;
     case "10~15公里":d=12.5;break;
@@ -417,26 +435,35 @@ function wrapperSena(str){
   return '<div class="sena-wrapper clearfix">'+str+'</div>';
 }
 
+function getSenarioTimeText(type){
+  var text="";
+  switch(type){
+    case "bus":text="由于发车频率、路况不确定等因素， 实际时间：";break;
+    case "metro":text="由于发车频率等因素， 实际时间：";break;
+    default:text="由于实际路况不确定，实际时间：";break;
+  }
+  return text;
+}
 var ctext=["有座位","站立，不拥挤","","站立，很拥挤"];
-function geneSenario(costText,type,x,i,index){
+function geneSenario(costText,type,x,i,index,mean){
   var text=(type==transType)?"您的原选择:":"新选择:";
   if(index!=undefined){
     text="新选择:"
   }
+  
   var s='<div class="s-wrapper sena">\
       <div class="s-head"><span>'+text+'</span><img src="assets/images/'+type+'.png"/></div>\
       <div class="s-title">费用</div>\
       <div class="s-content cost">'+costText+'</div>\
       <div class="s-title">时间范围</div>\
-      <div class="s-content time">实际时间有相等可能是以下10种情况：\
+      <div class="s-content time">'+getSenarioTimeText(type)+'\
         <div class="s-item-wrapper clearfix">';
         x.each(function(item){
-          s+='<div class="s-c-item">'+Math.round(item)+'分钟</div>';
+          s+='<div class="new-time">'+Math.round(item[0])+'~'+Math.round(item[1])+'分钟 到达的可能性是 '+Math.round(item[2]*100)+'%</div>';
         })
         s+='</div>\
       </div>\
-      <div class="s-title">平均时间</div>\
-      <div class="s-content">'+ave(x)+'分钟</div>';
+      <div class="s-content">平均时间：'+Math.round(mean)+'分钟</div>';
       if(i==undefined){
         s+='<div class="s-title">车厢内拥挤程度</div>\
             <div class="s-content image car">舒适\
@@ -453,11 +480,12 @@ function geneSenario(costText,type,x,i,index){
     s+='</div>'
   return s;
 }
-function addText(str){
-  J.id("quesWrapper").append(geneText(str))
+function addText(str,red){
+  J.id("quesWrapper").append(geneText(str,red))
 }
-function geneText(str){
-  var s='<div class="q-w">\
+function geneText(str,red){
+  red=J.checkArg(red,"")
+  var s='<div class="q-w '+red+'">\
         <div class="q-text">'+str+'\
         </div>\
       </div>';
@@ -475,13 +503,13 @@ function addSenaAnswer(){
   var anss=[];
   J.id("quesWrapper").findClass("question").each(function(item,i){
     var ans=getAnswer(item);
-    if(ans.length<=6){
-      if(ans.has("自驾")){
-        ans=0;
+    if(item.next().child().length==3){
+      if(ans.has("公交")){
+        ans=2;
       }else if(ans.has("地铁")){
         ans=1;
       }else{
-        ans=2;
+        ans=0;
       }
     }else{
       ans=(ans.has("放弃"))?1:0;
@@ -496,73 +524,132 @@ function addSenaAnswer(){
   answer.append(arrayToString(senario.last()));
 }
 
+function arrayToString(arr){
+  if(arr[0].constructor==Array){
+    var s="[[";
+    arr.each(function(a,i){
+      if(a.constructor==Array){
+        a.each(function(item,i){
+          if(item.constructor==Array&&item[0].length==3){
+            s+=item.toString()+',"",';
+          }else{
+            if(i==a.length-1){
+              s+=item.toString();
+            }else{
+              s+=item.toString()+",";
+            }
+          }
+        })
+      }else{
+        s+=a.toString()+","
+      }
+      if(i==arr.length-1){
+        s+="]]"
+      }else{
+        s+="],["
+      }
+    });
+    return s;
+  }else{
+    return "["+arr.toString+"]";
+  }
+}
 function changeLength(){
-  setTimeout(function(){
+  J.class("middle").last().child(0).onload=function(){
     J.class("middle").each(function(item){
       var l=item.prev().hei();
       item.css("height",l+"px");
       item.child(0).css("height",l+"px");
     });
-  },10)
+  }
+  J.select(".s-content img").last().onload=function(){
+    J.class("middle").each(function(item){
+      var l=item.prev().hei();
+      item.css("height",l+"px");
+      item.child(0).css("height",l+"px");
+    });
+  }
 }
 function allEnd(){
-  if(lot){
-    answer.append(J.id("account").val(),last_money);
-  }else{
-    answer.append("",0);
-  }
   J.class("lotter-wrapper").hide();
   var result=dealAnswer();
+  var acc=0,mon=0;
+  if(lot){
+    acc=J.id("account").val();
+    mon=last_money;
+  }
+  J.ajax({
+    type: "POST", 
+    url: "http://10.60.45.44:8080/traffic/api/wenjuan/add",
+    data:{
+      "content":result,
+      "phone":acc,
+      "money":last_money
+    },
+    success: function(data){
+      if(data.data==1){
+        J.show("请不要重复提交");
+      }else{
+        J.show("提交成功！奖金24小时内到账");
+      }
+    },
+    error: function (err) {
+      alert(err.toString());
+    }
+  });
   alert(result);
 }
 var _lot_num=0;
 var canLot=true;
 var last_money=0;
 var lot=false;
-function showLotter(){
+
+var lottetNext=null;
+function showLotter(fun){
   J.id("paper").hide();
   J.class("lotter-wrapper").show();
   J.class("lotter").child(1).txt("点击抽奖").show();
   J.class("lotter").child(2).empty();
+  lottetNext=fun;
 }
 function lotter(obj){
-  if(canLot){
-    canLot=false;
-    if((transType=="car"&&_lot_num>=2)||(transType!="car"&&_lot_num>=1)){
-      J.show("抽奖资格已用完","error");
-      return;
-    }
-    obj.txt("抽取中...")
-    setTimeout(function(){
-      _lot_num++;
-      var money=0;
-      var num=J.getRandom(0,1000)*0.1;
-      if(num>0&&num<=30){
-        money=0.5;
-      }else if(num>30&&num<=40){
-        money=1;
-      }else if(num>50&&num<=58){
-        money=2;
-      }else if(num>65&&num<=69){
-        money=5;
-      }else if(num>80&&num<=81){
-        money=10;
-      }else if(num>90&&num<=90.5){
-        money=50;
+  if(J.cookie("can_lotter")!="false"){
+    if(canLot){
+      canLot=false;
+      if(_lot_num>=2){
+        J.show("抽奖资格已用完","error");
+        return;
       }
-      obj.hide();
-      if(transType=="car"){
+      obj.txt("抽取中...")
+      setTimeout(function(){
+        _lot_num++;
+        var money=0;
+        var num=J.random(0,1000)*0.1;
+        if(num>0&&num<=30){
+          money=0.5;
+        }else if(num>30&&num<=40){
+          money=1;
+        }else if(num>50&&num<=58){
+          money=2;
+        }else if(num>65&&num<=69){
+          money=5;
+        }else if(num>80&&num<=81){
+          money=10;
+        }else if(num>90&&num<=90.5){
+          money=50;
+        }
+        obj.hide();
         if(_lot_num==1){
           canLot=true;
           if(money>0){
             obj.next().html('恭喜您中奖了！本次您中了<span class="red money">'+money+'</span>元！</br>\
             <span class="lotter-warn">(完成所有内容后另有一次抽奖，需完成所有内容才能获取红包)</span>\
-            <div class="button m-s" onclick="appendCarSenario3()">下一步</div>');
+            <div class="button m-s" onclick="'+lottetNext+'()">下一步</div>');
             lot=true;
           }else{
             obj.next().html('很遗憾您没有中奖</br>\
             (完成所有内容后还有一次抽奖)\
-            <div class="button m-s" onclick="appendCarSenario3()">下一步</div>');
+            <div class="button m-s" onclick="'+lottetNext+'()">下一步</div>');
           }
         }else{
           if(money>0){
@@ -571,6 +658,7 @@ function lotter(obj){
             <input placeholder="支付宝账号" id="account"/>\
             <div class="button m-s" onclick="allEnd()">提交</div>');
             lot=true;
+            J.cookie("can_lotter","false");
           }else{
             if(last_money>0){
               obj.next().html('本次您没有中奖！奖金共'+(money+last_money)+'元。请填写您的支付宝账号方便转账</br>\
@@ -578,32 +666,20 @@ function lotter(obj){
               <input placeholder="支付宝账号" id="account"/>\
               <div class="button m-s" onclick="allEnd()">提交</div>');
               lot=true;
+              J.cookie("can_lotter","false");
             }else{
               obj.next().html('很遗憾您没有中奖');
               setTimeout(function(){
                 J.class("lotter-wrapper").fadeOut();
               },1500);
               allEnd();
+              J.cookie("can_lotter","false");
             }
           }
         }
-      }else{
-        if(money>0){
-          obj.next().html('恭喜您中奖了！本次您中了<span class="red money">'+money+'</span>元！请填写您的支付宝账号方便转账</br>\
-          <span class="lotter-warn">(注：本调查为科研项目，只能采用人工后期转账，最晚隔天24:00前到账)</span>\
-          <input placeholder="支付宝账号" id="account"/>\
-            <div class="button m-s" onclick="allEnd()">提交</div>');
-            lot=true;
-        }else{
-          obj.next().txt('很遗憾您没有中奖');
-          setTimeout(function(){
-            J.class("lotter-wrapper").fadeOut();
-          },1500);
-          allEnd();
-        }
-      }
-      last_money+=money;
-    },1500);
+        last_money+=money;
+      },1500);
+    }
   }
 }
 function active(obj){
@@ -677,7 +753,6 @@ function appendBusRest(){
   addRestCommon();
 }
 function addPeopleFactor(){
-  addText("个人属性：");
   addQuestion({
     type:"single",
     title:"性别：",
@@ -818,11 +893,19 @@ function gettable(obj){
 function end(){
   if(checkInput()){
     addAnswer();
-    showLotter();
-    J.id("paper").hide();
-    J.id("start").child(0).hide();
-    J.id("start").child(1).show();
-    J.id("start").fadeIn();
+    if(J.cookie("can_lotter")!="false"){
+      showLotter(allEnd);
+      J.id("paper").hide();
+      J.id("start").child(0).hide();
+      J.id("start").child(1).show();
+      J.id("start").fadeIn();
+    }else{
+      J.id("paper").hide();
+      J.id("start").child(1).hide();
+      J.id("start").child(0).show();
+      J.id("start").fadeIn();
+      allend();
+    }
   }
 }
 function dealAnswer(){
@@ -838,27 +921,32 @@ function dealAnswer(){
   }
   return answer.join(";")
 }
-function arrayToString(arr){
-  if(arr[0].constructor==Array){
-    var s="[[";
-    arr.each(function(a,i){
-      s+=a.toString();
-      if(i==arr.length-1){
-        s+="]]"
-      }else{
-        s+="],["
-      }
-    });
-    return s;
-  }else{
-    return "["+arr.toString+"]";
-  }
+function getTUp(){
+  return answer[4][1];
+}
+function getTLow(){
+  return answer[4][0]
+}
+function getMean(){
+  return Math.round((getTUp()+getTLow())/2)
+}
+function geneTUp(M,SD){
+  var sigma=Math.sqrt(Math.log((SD/M)^2+1))
+  var mu=Math.log(M)-(sigma^2)/2;
+  return Math.exp(mu+1.8*sigma);
+}
+function geneTLow(M,SD){
+  var sigma=Math.sqrt(Math.log((SD/M)^2+1))
+  var mu=Math.log(M)-(sigma^2)/2;
+  return Math.exp(mu-1.8*sigma);
 }
 
 
 
-
-
+function hideLotter(){
+  J.class("lotter-wrapper").hide();
+  J.id("paper").show();
+}
 
 
 

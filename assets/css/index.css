@@ -56,6 +56,9 @@ body{
   font-size: 20px;
   margin-bottom: 20px;
 }
+.lotter .l-title{
+  font-size: 30px;
+}
 #title .l-title{
   color:#e00;
 }
@@ -73,7 +76,7 @@ body{
 }
 #start .text{
   text-indent: 2em;
-  font-size: 18px;
+  font-size: 20px;
 }
 #start .button{
   margin-top:20px;
@@ -101,6 +104,10 @@ body{
   font-weight: bold;
   padding: 10px 0;
   
+}
+.new-time{
+  font-size:14px;
+  white-space:nowrap;
 }
 .q-text{
   text-align: left;
@@ -230,6 +237,7 @@ body{
 .s-item-wrapper{
   width:80%;
   margin:0 auto;
+  min-height:110px;
 }
 .s-c-item{
   width:50%;
@@ -251,6 +259,9 @@ body{
 }
 .sena-wrapper.three .s-wrapper.sena{
   width:233px;
+}
+.sena-wrapper.three .car{
+  height:182px;
 }
 .middle img{
   width:100%;
@@ -334,7 +345,7 @@ body{
   font-size:16px;
 }
 .table-wrapper .table-item:first-child{
-  background-color: #ccc;
+  /*background-color: #ccc;*/
 }
 .table-wrapper .table-item:first-child .table-l-item{
   color:#222;
@@ -430,6 +441,9 @@ body{
     font-size: 18px;
     margin-bottom: 10px;
   }
+  .lotter .l-title{
+    font-size: 22px;
+  }
   #start .text{
     font-size: 16px;
   }
@@ -487,6 +501,13 @@ body{
   }
   .q-i-w{
     padding: 0 2px;
+  }
+  .new-time{
+    font-size:12px;
+    white-space:normal;
+  }
+  .sena-wrapper.three .car{
+    height:auto;
   }
 }
 
