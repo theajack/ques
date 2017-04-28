@@ -586,9 +586,11 @@ function allEnd(){
       "phone":acc,
       "money":last_money
     },
+    dataType:"json",
+    contentType: "application/x-www-form-urlencoded;charset=utf-8",
     success: function(data){
       if(data.data==1){
-        J.show("请不要重复提交");
+        J.show("请不要重复提交","warn");
       }else{
         J.showWait("提交成功！奖金24小时内到账","success");
       }
