@@ -555,19 +555,25 @@ function arrayToString(arr){
   }
 }
 function changeLength(){
-  J.class("middle").last().child(0).onload=function(){
-    J.class("middle").each(function(item){
-      var l=item.prev().hei();
-      item.css("height",l+"px");
-      item.child(0).css("height",l+"px");
-    });
+  var a=J.class("middle").last();
+  if(a!=undefined){
+    a.child(0).onload=function(){
+      J.class("middle").each(function(item){
+        var l=item.prev().hei();
+        item.css("height",l+"px");
+        item.child(0).css("height",l+"px");
+      });
+    }
   }
-  J.select(".s-content img").last().onload=function(){
-    J.class("middle").each(function(item){
-      var l=item.prev().hei();
-      item.css("height",l+"px");
-      item.child(0).css("height",l+"px");
-    });
+  var b=J.select(".s-content img").last();
+  if(b!=undefined){
+    b.onload=function(){
+      J.class("middle").each(function(item){
+        var l=item.prev().hei();
+        item.css("height",l+"px");
+        item.child(0).css("height",l+"px");
+      });
+    }
   }
 }
 function allEnd(){
