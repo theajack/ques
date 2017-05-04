@@ -62,6 +62,8 @@ var B = [
 [1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000 ] 
 ];
 function generateSenrio(M,SD,Tup,Tlow) {
+
+	console.log("M=" + M + ",SD=" + SD + ",up=" + Tup + ",LOW=" + Tlow);
 	var A = [];
 	var sigma = Math.sqrt( Math.log( (SD/M) * (SD/M) + 1 ) );
 	var mu = Math.log(M) - sigma * sigma/ 2;
@@ -294,7 +296,7 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 		var car_meantime_RP = this.RP_mean;
 		var car_cost1 = this.RP_cost + 5; 
 		var car_cost2 = this.RP_cost + 15; 
-		var car_cost3 = this.RP_cost + 30; 
+		var car_cost3 = this.RP_cost + 25; 
 		var car_cost4 = this.RP_cost + 40; 
 		var car_reliability_RP = this.RP_SD;
 
@@ -384,23 +386,42 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 			z[0] = A[1]; 
 		}
 
-		if (u3 < u4) {
+ 		var randomindex1 = getRadom();
+		if (randomindex1[0]<2) {
 			z[1] = A[2];
 		} else {
 			z[1] = A[3];
 		}
-
-		if (u5 > u6) {
+        var randomindex2 = getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
 		} else {
 			z[2] = A[5];
 		}
-
-		if (u7 > u8) {
+ 		 var randomindex3 = getRadom();
+		if (randomindex3[0]<2) {
 			z[3] = A[6];
 		} else {
 			z[3] = A[7];
 		}
+
+		// if (u3 < u4) {
+			// z[1] = A[2];
+		// } else {
+			// z[1] = A[3];
+		// }
+
+		// if (u5 > u6) {
+			// z[2] = A[4];
+		// } else {
+			// z[2] = A[5];
+		// }
+
+		// if (u7 > u8) {
+			// z[3] = A[6];
+		// } else {
+			// z[3] = A[7];
+		// }
 
 		return z;
 
@@ -411,7 +432,7 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 		var car_meantime_RP = this.RP_mean;
 		var car_cost1 = this.RP_cost + 5;
 		var car_cost2 = this.RP_cost + 15;
-		var car_cost3 = this.RP_cost + 30;
+		var car_cost3 = this.RP_cost + 25;
 		var car_cost4 = this.RP_cost + 40;
 		var car_reliability_RP = this.RP_SD;
 
@@ -467,24 +488,43 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 		} else {
 			z[0] = A[1];
 		}
-
-		if (u3 < u4) {
+		
+		var randomindex1 = getRadom();
+		if (randomindex1[0]<2) {
 			z[1] = A[2];
 		} else {
 			z[1] = A[3];
 		}
-
-		if (u5 > u6) {
+        var randomindex2 = getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
 		} else {
 			z[2] = A[5];
 		}
-
-		if (u7 > u8) {
+        var randomindex3 = getRadom();
+		if (randomindex3[0]<2) {
 			z[3] = A[6];
 		} else {
 			z[3] = A[7];
 		}
+
+		// if (u3 < u4) {
+			// z[1] = A[2];
+		// } else {
+			// z[1] = A[3];
+		// }
+
+		// if (u5 > u6) {
+			// z[2] = A[4];
+		// } else {
+			// z[2] = A[5];
+		// }
+
+		// if (u7 > u8) {
+			// z[3] = A[6];
+		// } else {
+			// z[3] = A[7];
+		// }
 
 		return z;
 
@@ -861,7 +901,7 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 		var Time2 = RP_time * 1.2;
 		var Time3 = RP_time * 1.4;
 		var Cost1 = Math.ceil(0.7 * distance1);
-		var Cost2 = Math.ceil(0.7 * distance1);
+		var Cost2 = Math.ceil(0.7 * distance2);
 		var Reliability1 = RP_reliability * 0.7;
 		var Reliability2 = RP_reliability;
 		var Reliability3 = RP_reliability * 1.3;
@@ -903,23 +943,43 @@ function Car(Tup,Tlow,oil_cost, park_cost, road_cost) {
 		} else {
 			z[0] = A[1];
 		}
-
-		if (u3 < u4) {
+		
+		        var randomindex1=getRadom()
+		if (randomindex1[0]<2) {
 			z[1] = A[2];
 		} else {
 			z[1] = A[3]; 
 		}
-
-		if (u5 > u6) {
+        var randomindex2=getRadom()
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
 		} else {
 			z[2] = A[5]; 
 		}
-		if (u7 > u8) {
+		
+       var randomindex3=getRadom()
+		if (randomindex3[0]<2) {
 			z[3] = A[6];
 		} else {
 			z[3] = A[7]; 
 		}
+
+		// if (u3 < u4) {
+			// z[1] = A[2];
+		// } else {
+			// z[1] = A[3]; 
+		// }
+
+		// if (u5 > u6) {
+			// z[2] = A[4];
+		// } else {
+			// z[2] = A[5]; 
+		// }
+		// if (u7 > u8) {
+			// z[3] = A[6];
+		// } else {
+			// z[3] = A[7]; 
+		// }
 		return z;
 	}
 
@@ -1374,45 +1434,65 @@ function Bus(Tup,Tlow,crowd) {
 		} else {
 			z[0] = A[1];
 		}
-
-
-		var u3 = A[2][A[2].length-1];
-		var u4 = A[3][A[3].length-1];
-		if (u3 < u4) {
+		
+		 var randomindex1=getRadom();
+		if (randomindex1[0]<2) {
 			z[1] = A[2];
 		} else {
 			z[1] = A[3];
 		}
 
-		var u5 = A[4][A[4].length-1];
-		var u6 = A[5][A[5].length-1];
-		var u7 = A[6][A[6].length-1];
-		var u8 = A[7][A[7].length-1];
-		var arr = [u5,u6,u7,u8];
-		arr.sort(compare)
-		if (u4 == arr[0]) {
-			z[2] = A[3];
-		} else if (u5 == arr[0]) {
+		var randomindex2=getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
-		}else if (u6 == arr[0]) {
-			z[2] = A[5];
-		} else if (u7 == arr[0]) {
-			z[2] = A[6];
-		} else if (u8 == arr[0]) {
-			z[2] = A[7];
+		} else {
+			z[2] = A[5];			   
 		}
-
-		if (u4 == arr[2]) {
-			z[3] = A[3];
-		} else if (u5 == arr[2]) {
-			z[3] = A[4];
-		}else if (u6 == arr[2]) {
-			z[3] = A[5];
-		} else if (u7 == arr[2]) {
+		
+		var randomindex3=getRadom();
+		if (randomindex3[0]<2) {										   								   							
 			z[3] = A[6];
-		} else if (u8 == arr[2]) {
+		} else {
 			z[3] = A[7];
 		}
+
+		// var u3 = A[2][A[2].length-1];
+		// var u4 = A[3][A[3].length-1];
+		// if (u3 < u4) {
+			// z[1] = A[2];
+		// } else {
+			// z[1] = A[3];
+		// }
+
+		// var u5 = A[4][A[4].length-1];
+		// var u6 = A[5][A[5].length-1];
+		// var u7 = A[6][A[6].length-1];
+		// var u8 = A[7][A[7].length-1];
+		// var arr = [u5,u6,u7,u8];
+		// arr.sort(compare)
+		// if (u4 == arr[0]) {
+			// z[2] = A[3];
+		// } else if (u5 == arr[0]) {
+			// z[2] = A[4];
+		// }else if (u6 == arr[0]) {
+			// z[2] = A[5];
+		// } else if (u7 == arr[0]) {
+			// z[2] = A[6];
+		// } else if (u8 == arr[0]) {
+			// z[2] = A[7];
+		// }
+
+		// if (u4 == arr[2]) {
+			// z[3] = A[3];
+		// } else if (u5 == arr[2]) {
+			// z[3] = A[4];
+		// }else if (u6 == arr[2]) {
+			// z[3] = A[5];
+		// } else if (u7 == arr[2]) {
+			// z[3] = A[6];
+		// } else if (u8 == arr[2]) {
+			// z[3] = A[7];
+		// }
 
 		return z;
 	}
@@ -1478,38 +1558,60 @@ function Bus(Tup,Tlow,crowd) {
 		} else {
 			z[0] = A[1];
 		}
-
-		var arr1 = [u3,u4,u5];
-		arr1.sort(compare)
-		if (u3 == arr1[2]) {
+		
+ var randomindex1=getRadom();
+		if (randomindex1[0]<2) {
 			z[1] = A[2];
-		} else if (u4 == arr1[2]) {
-			z[1] = A[3];
-		} else if (u5 == arr1[2]) {
-			z[1] = A[4];
+		} else {
+			z[1] = A[3];							 			   
 		}
-
-		var arr2 = [u5,u6,u7,u8];
-		arr2.sort(compare)
-
-		if (u5 == arr2[1]) {
+		
+		var randomindex2=getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
-		} else if (u6 == arr2[1]) {
-			z[2] = A[5];
-		} else if (u7 == arr2[1]) {
-			z[2] = A[6];
-		} else if (u8 == arr2[1]) {
-			z[2] = A[7];
+		} else {
+			z[2] = A[5];							 			   							 			   
 		}
-		if (u5 == arr2[0]) {
-			z[3] = A[4];
-		} else if (u6 == arr2[0]) {
-			z[3] = A[5];
-		} else if (u7 == arr2[0]) {
+		
+		var randomindex3=getRadom();
+		if (randomindex3[0]<2) {			   							 
 			z[3] = A[6];
-		} else if (u8 == arr2[0]) {
+		} else {
 			z[3] = A[7];
 		}
+		
+		
+		// var arr1 = [u3,u4,u5];
+		// arr1.sort(compare)
+		// if (u3 == arr1[2]) {
+			// z[1] = A[2];
+		// } else if (u4 == arr1[2]) {
+			// z[1] = A[3];
+		// } else if (u5 == arr1[2]) {
+			// z[1] = A[4];
+		// }
+
+		// var arr2 = [u5,u6,u7,u8];
+		// arr2.sort(compare)
+
+		// if (u5 == arr2[1]) {
+	 			// z[2] = A[4];
+		// } else if (u6 == arr2[1]) {
+			// z[2] = A[5];
+		// } else if (u7 == arr2[1]) {
+			// z[2] = A[6];
+		// } else if (u8 == arr2[1]) {
+			// z[2] = A[7];
+		// }
+		// if (u5 == arr2[0]) {
+			// z[3] = A[4];
+		// } else if (u6 == arr2[0]) {
+			// z[3] = A[5];
+		// } else if (u7 == arr2[0]) {
+			// z[3] = A[6];
+		// } else if (u8 == arr2[0]) {
+			// z[3] = A[7];
+		// }
 
 
 		
@@ -1938,36 +2040,74 @@ function Metro(Tup,Tlow,crowd,cost) {
 		var u1 = A[0][A[0].length-1];
 		var u2 = A[1][A[1].length-1];
 		var u3 = A[2][A[2].length-1];
-		if (u1 <= u2 && u1 <= u3) {
+if (u1 <= u2 ) {
 			z[0] = A[0];
-		} else if(u2 <= u1 && u2 <= u3) {
+		} else  {
 			z[0] = A[1]
-		} else if(u3 <= u1 && u3 <= u2) {
-			z[0] = A[2];
+		 } 
+		 // else if(u3 <= u1 && u3 <= u2) {
+			// z[0] = A[2];
+		// }
+		
+		// if (u1 <= u2 && u1 <= u3) {
+			// z[0] = A[0];
+		// } else if(u2 <= u1 && u2 <= u3) {
+			// z[0] = A[1]
+		// } else if(u3 <= u1 && u3 <= u2) {
+			// z[0] = A[2];
+		// }
+
+
+ var randomindex1=getRadom();
+		if (randomindex1[0]<2) {				   
+			z[1] = A[2];
+			   
+		} else {
+			z[1] = A[3];			   
 		}
-
-
-		var u4 = A[3][A[3].length-1];
-		var u5 = A[4][A[4].length-1];
-		var u6 = A[5][A[5].length-1];
-		if (u4 <= u5 && u4 <= u6) {
-			z[1] = A[4];
-			z[2] = A[5];
-		} else if(u5 <= u4 && u5 <= u6) {
-			z[1] = A[3];
-			z[2] = A[5];
-		} else if(u6 <= u4 && u6 <= u5) {
-			z[1] = A[3];
+	
+		var randomindex2=getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
+		} else {
+			z[2] = A[5];
 		}
-
-		var u7 = A[6][A[6].length-1];
-		var u8 = A[7][A[7].length-1];
-		if(u7 > u8) {
+		
+		var randomindex3=getRadom();
+		if (randomindex3[0]<2) {
 			z[3] = A[6];
 		} else {
 			z[3] = A[7];
 		}
+		// if (u1 <= u2 && u1 <= u3) {
+			// z[0] = A[0];
+		// } else if(u2 <= u1 && u2 <= u3) {
+			// z[0] = A[1]
+		// } else if(u3 <= u1 && u3 <= u2) {
+			// z[0] = A[2];
+		// }
+
+
+		// var u4 = A[3][A[3].length-1];
+		// var u5 = A[4][A[4].length-1];
+		// var u6 = A[5][A[5].length-1];
+		// if (u4 <= u5 && u4 <= u6) {
+			// z[1] = A[4];
+			// z[2] = A[5];
+		// } else if(u5 <= u4 && u5 <= u6) {
+			// z[1] = A[3];
+			// z[2] = A[5];
+		// } else if(u6 <= u4 && u6 <= u5) {
+			// z[1] = A[3];
+			// z[2] = A[4];
+		// }
+		// var u7 = A[6][A[6].length-1];
+		// var u8 = A[7][A[7].length-1];
+		// if(u7 > u8) {															   
+			// z[3] = A[6];
+		// } else {
+			// z[3] = A[7];
+		// }				 
 		return z;
 
 	}
@@ -2033,35 +2173,47 @@ function Metro(Tup,Tlow,crowd,cost) {
 		z[0] = A[radom1];
 		z[1] = A[radom2];
 
-
-		var u5 = A[4][A[4].length-1];
-		var u6 = A[5][A[5].length-1];
-		var u7 = A[6][A[6].length-1];
-		var u8 = A[7][A[7].length-1];
-
-		var arr = [u5,u6,u7,u8];
-		arr.sort(compare)
-		if (u5 == arr[3]) {
+       var randomindex2=getRadom();
+		if (randomindex2[0]<2) {
 			z[2] = A[4];
-		} else if (u6 == arr[3]) {
+		} else {
 			z[2] = A[5];
-		} else if (u7 == arr[3]) {
-			z[2] = A[6];
-		} else if (u8 == arr[3]) {
-			z[2] = A[7];
 		}
-
-
-
-		if (u5 == arr[0]) {
-			z[3] = A[4];
-		} else if (u6 == arr[0]) {
-			z[3] = A[5];
-		} else if (u7 == arr[0]) {
+		
+		var randomindex3=getRadom();
+		if (randomindex3[0]<2) {
 			z[3] = A[6];
-		} else if (u8 == arr[0]) {
+		} else {
 			z[3] = A[7];
 		}
+		// var u5 = A[4][A[4].length-1];
+		// var u6 = A[5][A[5].length-1];
+		// var u7 = A[6][A[6].length-1];
+		// var u8 = A[7][A[7].length-1];
+
+		// var arr = [u5,u6,u7,u8];
+		// arr.sort(compare)
+		// if (u5 == arr[3]) {
+			// z[2] = A[4];
+		// } else if (u6 == arr[3]) {
+			// z[2] = A[5];
+		// } else if (u7 == arr[3]) {
+			// z[2] = A[6];
+		// } else if (u8 == arr[3]) {
+			// z[2] = A[7];
+		// }
+
+
+
+		// if (u5 == arr[0]) {
+			// z[3] = A[4];
+		// } else if (u6 == arr[0]) {
+			// z[3] = A[5];
+		// } else if (u7 == arr[0]) {
+			// z[3] = A[6];
+		// } else if (u8 == arr[0]) {
+			// z[3] = A[7];
+		// }
 
 		
 		return z;

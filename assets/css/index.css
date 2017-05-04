@@ -239,6 +239,21 @@ body{
   margin:0 auto;
   min-height:110px;
 }
+.s-item-wrapper.s1{
+  padding-top:50px;
+}
+.s-item-wrapper.s2{
+  padding-top:40px;
+}
+.s-item-wrapper.s3{
+  padding-top:30px;
+}
+.s-item-wrapper.s4{
+  padding-top:20px;
+}
+.s-item-wrapper.s5{
+  padding-top:10px;
+}
 .s-c-item{
   width:50%;
   float:left;
@@ -298,6 +313,7 @@ body{
 #account{
   height: 30px;
   margin: 10px 0;
+  padding-left:5px;
 }
 .lotter .button{
   background-color:#d22;
@@ -384,7 +400,8 @@ body{
   height:52px;
 }
 .s-content.time{
-  height:142px;
+
+  height:162px;
 }
 .s-content.image{
   height:227px;
@@ -401,7 +418,8 @@ body{
     height:42px;
   }
   .s-content.time{
-    height:122px;
+    min-height: 122px;
+    height:auto;
   }
   .s-content.image{
     height:122px;

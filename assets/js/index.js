@@ -59,12 +59,21 @@ function appendGeneralItems(){
       transType="metro";
       addGeneralComm();
       addMetroGenral();
-    }else{
+    }else if(i==9){
+		  transType="";
+		  addText("不好意思，您采用步行/非机动车上班不是本调查的目标人群，谢谢参入！","red");
+	  }else if (i==3||i==7){
       transType="bus";
       addGeneralComm();
       addBusGeneral();
     }
-    btnEvent(appendCheck);
+    if(i==9){
+      J.cookie("can_lotter","false");
+      canLot=false;
+      btnEvent(end,"提交");
+    }else{
+      btnEvent(appendCheck);
+    }
   }
 }
 
@@ -113,7 +122,14 @@ function addQuestion(opt){
 function addAnswer(){
   J.id("quesWrapper").findClass("question").each(function(item){
     if(item.parent().css("display")=="none"){
-      answer.append("");
+      var n=item.findClass("q-num").length;
+      if(n>1){
+        for(var i=0;i<n;i++){
+          answer.append("");
+        }
+      }else{
+        answer.append("");
+      }
     }else{
       answer.append(getAnswer(item));
     }
@@ -165,6 +181,14 @@ function checkSingle(obj,showAdd){
   }else if(showAdd==false){
     obj.parent(2).next().slideUp();
   }
+  if(J.id("allMoneyDiv")!=undefined){
+    if(obj.parent(3)==J.id("allMoneyDiv").parent()){
+      var m1=parseFloat(getDistanceByStr(getsingle(J.id("distantce")))*0.7);
+      J.id("moneyYou").txt(Math.round(m1));
+      J.id("allMoney").txt(Math.round(m1));
+      J.id("money2").val(0);
+    }
+  }
 }
 function getsingle(obj){
   var act=obj.next().findClass("active");
@@ -174,6 +198,9 @@ function getsingle(obj){
   }else{
     return act.next().txt();
   }
+}
+function getsena(obj){
+  return obj.next().findClass("active").parent().index();
 }
 function checkInput(){
   var list=J.class("question");
@@ -284,7 +311,7 @@ function appendCheck(){
       answer[4][0]=Tup;
     }
     var RP_mean=(Tup+Tlow)/2;
-    var a=Math.log(Tup/Tlow)/3.3;
+    var a=Math.log(Tup/Tlow)/3.8;
     var u=Math.log(RP_mean)-Math.pow(a,2)/2;
     var RP_SD=Math.sqrt((Math.exp(Math.pow(a,2))-1)*Math.exp(2*u+Math.pow(a,2)));
     var x=generateSenrio(RP_mean,RP_SD,Tup,Tlow);
@@ -292,10 +319,11 @@ function appendCheck(){
     nextPage();
     addQuestion({
       type:"single",
-      title:"根据那您之前所填信息，您现在采用的上班方式信息大概如下。是否符合您的实际情况？",
+      title:"根据之前所填信息，您现在上班方式信息大概如下。描述是否符合您的实际情况？",
       list:["基本符合","很不符合"]
     });
-    addCheck(x,cost,RP_mean);
+	var juli=getDistance();
+    addCheck(x,juli,cost,RP_mean);
     btnEvent(function(){
       if(checkInput()){
         addAnswer();
@@ -331,20 +359,33 @@ function rechoose(){
   appendGeneralItems();
   J.show("请重新填写","info");
 }
-function addCheck(x,cost,RP_mean){
+function geneTimeEle(x){
+  var s='<div class="s-item-wrapper">';
+  var i=0;
+  x.each(function(a){
+    if(Math.round(a[2]*100)!=0&&i<6){
+      i++;
+      s+='<div class="new-time">'+Math.round(a[0])+'~'+Math.round(a[1])+'分钟 到达的可能性是 '+Math.round(a[2]*100)+'%</div>';
+    }
+  });
+  s+='</div>';
+  if(i<6){
+    s=s.replace("s-item-wrapper","s-item-wrapper s"+i);
+  }
+  return s;
+}
+function addCheck(x,juli,cost,RP_mean){
   var s='<div class="s-wrapper clearfix">\
           <div class="s-left">\
             <div class="s-head"><span>您的原选择：</span><img src="assets/images/'+transType+'.png"/></div>\
+			<div class="s-title">出行距离</div>\
+			<div class="s-content">大概为'+juli+'公里</div>\
             <div class="s-title">费用</div>\
-            <div class="s-content">原费用：'+cost+'元</div>\
+            <div class="s-content">'+cost+'元</div>\
             <div class="s-title">时间范围</div>\
-            <div class="s-content">每天上班的实际时间由于情况不同，在一定范围内变动。根据您之前描述，预估实际出行时间情况大概如下：\
-              <div class="s-item-wrapper clearfix">';
-              x.each(function(a){
-                s+='<div class="new-time">'+Math.round(a[0])+'~'+Math.round(a[1])+'分钟 到达的可能性是 '+Math.round(a[2]*100)+'%</div>';
-              });
-              s+='</div>\
-            </div>\
+            <div class="s-content">每天上班的交通状况不同，实际时间在一定范围内变动。根据您之前描述，预估实际出行时间大概如下：';
+            s+=geneTimeEle(x);
+            s+='</div>\
             <div class="s-content">平均时间：'+Math.round(RP_mean)+'分钟</div>';
             
           if(transType!="car"){
@@ -399,9 +440,9 @@ function getCostText(cb,ca,type){
     return "票价："+cb+"元";
   }else{
     if(type=="car"||type=="taxi"){
-      return "原费用："+cb+"元;增加："+(ca-cb)+"元</br>共：" +ca+"元";
+      return "以前费用："+cb+"元，现增加："+(ca-cb)+"元</br>共：" +ca+"元";
     }
-    return "原票价："+cb+"元;增加："+(ca-cb)+"元</br>共：" +ca+"元";
+    return "以前票价："+cb+"元，现增加："+(ca-cb)+"元</br>共：" +ca+"元";
   }
 }
 
@@ -445,10 +486,11 @@ function getSenarioTimeText(type){
   return text;
 }
 var ctext=["有座位","站立，不拥挤","","站立，很拥挤"];
-function geneSenario(costText,type,x,i,index,mean){
-  var text=(type==transType)?"您的原选择:":"新选择:";
+function geneSenario(costText,type,x,i,index,mean,a){
+  a=J.checkArg(a,"选择");
+  var text=(type==transType)?"您的原选择:":"新"+a+":";
   if(index!=undefined){
-    text="新选择:"
+    text="新"+a+":"
   }
   
   var s='<div class="s-wrapper sena">\
@@ -456,13 +498,9 @@ function geneSenario(costText,type,x,i,index,mean){
       <div class="s-title">费用</div>\
       <div class="s-content cost">'+costText+'</div>\
       <div class="s-title">时间范围</div>\
-      <div class="s-content time">'+getSenarioTimeText(type)+'\
-        <div class="s-item-wrapper clearfix">';
-        x.each(function(item){
-          s+='<div class="new-time">'+Math.round(item[0])+'~'+Math.round(item[1])+'分钟 到达的可能性是 '+Math.round(item[2]*100)+'%</div>';
-        })
-        s+='</div>\
-      </div>\
+      <div class="s-content time">'+getSenarioTimeText(type);
+      s+=geneTimeEle(x);
+      s+='</div>\
       <div class="s-content">平均时间：'+Math.round(mean)+'分钟</div>';
       if(i==undefined){
         s+='<div class="s-title">车厢内拥挤程度</div>\
@@ -480,6 +518,42 @@ function geneSenario(costText,type,x,i,index,mean){
     s+='</div>'
   return s;
 }
+
+function geneSenarioroute(costText,type,x,i,index,mean,a,b){
+  a=J.checkArg(a,"选择");
+  var text=(type==transType)?"您的原选择:":"新"+a+":";
+  if(index=="new"){
+    text="新"+a;
+  }
+  
+  var s='<div class="s-wrapper sena">\
+      <div class="s-head"><span>'+text+'</span><img src="assets/images/'+type+'.png"/></div>\
+	  <div class="s-title">出行距离</div>\
+      <div class="s-content cost">'+b+"公里"+'</div>\
+      <div class="s-title">费用</div>\
+      <div class="s-content cost">'+costText+'</div>\
+      <div class="s-title">时间范围</div>\
+      <div class="s-content time">'+getSenarioTimeText(type);
+      s+=geneTimeEle(x);
+      s+='</div>\
+      <div class="s-content">平均时间：'+Math.round(mean)+'分钟</div>';
+      if(i==undefined){
+        s+='<div class="s-title">车厢内拥挤程度</div>\
+            <div class="s-content image car">舒适\
+          </div>'
+      }else{
+        if(i!="none"){
+          s+='<div class="s-title">车厢内拥挤程度</div>\
+              <div class="s-content">'+ctext[i]+'\
+              <img src="assets/images/'+type+i+'.jpg" alt="" />\
+            </div>'
+        }
+      }
+      
+    s+='</div>'
+  return s;
+}
+
 function addText(str,red){
   J.id("quesWrapper").append(geneText(str,red))
 }
@@ -502,18 +576,7 @@ function btnEvent(fun,text){
 function addSenaAnswer(){
   var anss=[];
   J.id("quesWrapper").findClass("question").each(function(item,i){
-    var ans=getAnswer(item);
-    if(item.next().child().length==3){
-      if(ans.has("公交")){
-        ans=2;
-      }else if(ans.has("地铁")){
-        ans=1;
-      }else{
-        ans=0;
-      }
-    }else{
-      ans=(ans.has("放弃"))?1:0;
-    }
+    var ans=getsena(item);
     anss.append(ans);
   });
   var k=0;
@@ -528,15 +591,20 @@ function arrayToString(arr){
   if(arr[0].constructor==Array){
     var s="[[";
     arr.each(function(a,i){
+      console.log(a);
       if(a.constructor==Array){
-        a.each(function(item,i){
-          if(item.constructor==Array&&item[0].length==3){
-            s+=item.toString()+',"",';
-          }else{
-            if(i==a.length-1){
-              s+=item.toString();
+        a.each(function(item,j){
+          if(item.constructor==Array){
+            if(item[0].constructor==Array){
+              s+="["+item.toString()+"],"
             }else{
+              s+=item.toString()+',';
+            }
+          }else{
+            if(j<a.length-1){
               s+=item.toString()+",";
+            }else{
+              s+=item.toString();
             }
           }
         })
@@ -578,34 +646,36 @@ function changeLength(){
 }
 function allEnd(){
   J.class("lotter-wrapper").hide();
-  var result=dealAnswer();
-  var acc=0,mon=0;
-  if(lot){
-    acc=J.id("account").val();
-    mon=last_money;
-  }
-  J.ajax({
-    type: "POST", 
-    url: "http://10.60.45.44:8080/traffic/api/wenjuan/add",
-    data:{
-      "content":result,
-      "phone":acc,
-      "money":last_money
-    },
-    dataType:"json",
-    contentType: "application/x-www-form-urlencoded;charset=utf-8",
-    success: function(data){
-      if(data.data==1){
-        J.show("请不要重复提交","warn");
-      }else{
-        J.showWait("提交成功！奖金24小时内到账","success");
-      }
-    },
-    error: function (err) {
-      alert(err.toString());
+  if(transType!=""){
+    var result=dealAnswer();
+    var acc=0,mon=0;
+    if(lot){
+      acc=J.id("account").val();
+      mon=last_money;
     }
-  });
-  alert(result);
+    J.ajax({
+      type: "POST", 
+      url: "http://10.60.45.44:8080/traffic/api/wenjuan/add",
+      data:{
+        "content":result,
+        "phone":acc,
+        "money":last_money
+      },
+      dataType:"json",
+      contentType: "application/x-www-form-urlencoded;charset=utf-8",
+      success: function(data){
+        if(data.data==1){
+          J.show("请不要重复提交","warn");
+        }else{
+          J.showWait("提交成功！奖金24小时内到账","success");
+        }
+      },
+      error: function (err) {
+        alert(err.toString());
+      }
+    });
+    //alert(result);
+  }
 }
 var _lot_num=0;
 var canLot=true;
@@ -633,25 +703,25 @@ function lotter(obj){
         _lot_num++;
         var money=0;
         var num=J.random(0,1000)*0.1;
-        if(num>0&&num<=30){
-          money=0.5;
-        }else if(num>30&&num<=40){
-          money=1;
-        }else if(num>50&&num<=58){
+        if(num>0&&num<=53){
           money=2;
-        }else if(num>65&&num<=69){
+        }else if(num>53&&num<=73){
+          money=3;
+        }else if(num>73&&num<=92){
           money=5;
-        }else if(num>80&&num<=81){
+        }else if(num>92&&num<=97){
           money=10;
-        }else if(num>90&&num<=90.5){
-          money=50;
+        }else if(num>97&&num<=99.5){
+          money=20;
+        }else if(num>99.5&&num<=100){
+          money=30;
         }
         obj.hide();
         if(_lot_num==1){
           canLot=true;
           if(money>0){
             obj.next().html('恭喜您中奖了！本次您中了<span class="red money">'+money+'</span>元！</br>\
-            <span class="lotter-warn">(完成所有内容后另有一次抽奖，需完成所有内容才能获取红包)</span>\
+            <span class="lotter-warn">(后续有另一次抽奖，需完成后续内容才能获得红包)</span>\
             <div class="button m-s" onclick="'+lottetNext+'()">下一步</div>');
             lot=true;
           }else{
@@ -901,20 +971,20 @@ function gettable(obj){
 function end(){
   if(checkInput()){
     addAnswer();
-    if(J.cookie("can_lotter")!="false"){
+    if(J.cookie("can_lotter")!="false"&&canLot==true){
       showLotter(allEnd);
-      J.id("paper").hide();
-      J.id("start").child(0).hide();
-      J.id("start").child(1).show();
-      J.id("start").fadeIn();
+      showEnd();
     }else{
-      J.id("paper").hide();
-      J.id("start").child(1).hide();
-      J.id("start").child(0).show();
-      J.id("start").fadeIn();
-      allend();
+      showEnd();
+      allEnd();
     }
   }
+}
+function showEnd(){
+  J.id("paper").hide();
+  J.id("start").child(0).hide();
+  J.id("start").child(1).show();
+  J.id("start").fadeIn();
 }
 function dealAnswer(){
   for(var i=0;i<answer.length;i++){
@@ -939,14 +1009,20 @@ function getMean(){
   return Math.round((getTUp()+getTLow())/2)
 }
 function geneTUp(M,SD){
-  var sigma=Math.sqrt(Math.log((SD/M)^2+1))
-  var mu=Math.log(M)-(sigma^2)/2;
-  return Math.exp(mu+1.8*sigma);
+  var sigma=Math.sqrt(Math.log((SD/M)*(SD/M)+1))
+  var mu= Math.log(M)-(sigma * sigma)/2;
+  var Tup= Math.round(Math.exp(mu+1.8*sigma));
+  return Tup;
+
 }
 function geneTLow(M,SD){
-  var sigma=Math.sqrt(Math.log((SD/M)^2+1))
-  var mu=Math.log(M)-(sigma^2)/2;
-  return Math.exp(mu-1.8*sigma);
+  var sigma=Math.sqrt(Math.log((SD/M)*(SD/M)+1))
+  var mu= Math.log(M)-(sigma * sigma)/2;
+  var Tlow= Math.round(Math.exp(mu-1.8*sigma)); 
+  if(Tlow==0){
+    Tlow=1;
+  }
+  return  Tlow;
 }
 
 
@@ -957,6 +1033,22 @@ function hideLotter(){
 }
 
 
+//以下为方便测试的代码，发布之前请删除
+//按空格键快捷填写
+window.onkeydown=function(event){
+  if(event.keyCode==32){
+    J.attr("a-type=table").each(function(item){
+      item.child(1).click();
+    })
+    J.attr("a-type=single").each(function(item){
+      item.next().child(0).child(0).click();
+    });
+    J.attr("a-type=number").each(function(item){
+      item.findClass("q-num").val(5);
+    });
+    J.scrollTo(J.id("paper").hei());
+  }
+}
 
 
 
