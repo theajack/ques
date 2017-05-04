@@ -185,19 +185,16 @@ function appendBusRest1(){
       ["非常符合","较为符合","中立","不大符合","完全不符合"],
       "请选择所描述内容是否符合您的实际或您是否同意"
     );
-    if(J.cookie("can_lotter")!="false"){
-      btnEvent(function(){
-        if(checkInput()){
-          addAnswer();
-          showLotter('appendBusSenarioNew');
-        }
-      });
-    }else{
+    btnEvent(function(){
       if(checkInput()){
         addAnswer();
-        appendBusSenarioNew();
+        if(J.cookie("can_lotter")!="false"){
+          showLotter('appendBusSenarioNew');
+        }else{
+          appendBusSenarioNew();
+        }
       }
-    }
+    });
   }
 }
 function appendBusSenarioNew(){

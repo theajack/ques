@@ -179,17 +179,16 @@ function appendBeforeFirstLotter(){
       ["非常符合","较为符合","中立","不大符合","完全不符合"],
       "以下有6项描述，请选择所描述内容是否符合您的实际"
     );
-    if(J.cookie("can_lotter")!="false"){
-      btnEvent(function(){
-        if(checkInput()){
-          addAnswer();
+    btnEvent(function(){
+      if(checkInput()){
+        addAnswer();
+        if(J.cookie("can_lotter")!="false"){
           showLotter('appendCarSenario3');
+        }else{
+          appendCarSenario3();
         }
-      });
-    }else{
-      addAnswer();
-      showLotter('appendCarSenario3');
-    }
+      }
+    });
   }
 }
 function appendCarSenario3(){
